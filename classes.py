@@ -16,12 +16,8 @@ class Task:
         self.date = date
 
 class Calendar:
-    tasks = []
 
-    def __init__(self, tasks) -> None:
-        self.tasks = tasks
-
-    def add(self):
+    def add(self,tasks):
         print("Új Protogén rajz hozzáadása")
         title = input("Adja meg a rajz címét: ")
         description = input("Adjon hozzá leírást(opcionális): ")
@@ -30,20 +26,21 @@ class Calendar:
         try:
             id = self.id = hex(randint(0,10**3))
             sep_date = cal_date.split("/")
-            self.tasks.append(Task(title, 
+            print(sep_date, id)
+            tasks.append(Task(title, 
                                    description, 
-                                   date(int(sep_date[0]),int(sep_date[1]), int(sep_date[2]),
+                                   date(int(sep_date[0]),int(sep_date[1]), int(sep_date[2])),
                                     id
-                                )))
+                                ))
             print("Új ötlet hozzáadva", id, "azonosítóval", cal_date, "időpontra.")
         except:
             print("Sikertelen művelet. Kérlek próbáld újra!")
 
-    def rewrite(self):
+    def rewrite(self,tasks):
         id = input("Létező ötlet módosítása\nAdd meg az ötlet azonosítóját: ")
         copy = None
 
-        if len(copy := [keresett for keresett in self.tasks if keresett.id == id]) > 0:
+        if len(copy := [keresett for keresett in tasks if keresett.id == id]) > 0:
             for prop in copy[0]:
                 if prop != "id" or "is_completed":
                     match prop:
@@ -73,9 +70,9 @@ class Calendar:
         else:
             print("A(z)", id, "azonosítóval ellátott ötlet nem létezik. Kérlek próbáld újra!")
 
-    def complete(self):
+    def complete(self,tasks):
         id = input("Létező ötlet teljesítése\nAdd meg az ötlet azonosítóját: ")
-        if len(copy := [keresett for keresett in self.tasks if keresett.id == id]) > 0:
+        if len(copy := [keresett for keresett in tasks if keresett.id == id]) > 0:
             new_path = input("Add meg a képhez tartozó (abszolút) útvonalat: ")
             copy[0].path = new_path
             copy[0].is_completed = True
